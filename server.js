@@ -10,24 +10,8 @@ app.use(express.json());
 /* =========================
    MYSQL CONNECTION
 ========================= */
-const db = mysql.createConnection({
-  host: "bxhz4vsb7h1el3fpptxf-mysql.services.clever-cloud.com",
-  user: "u7hvgcugwdilat3l",
-  password: "VZz11OGOTQo30mfAOujy",
-  database: "bxhz4vsb7h1el3fpptxf",
-  port: 3306,
-  ssl: {
-    rejectUnauthorized: false
-  }
-});
 
-db.connect((err) => {
-  if (err) {
-    console.log("MySQL connection error:", err);
-  } else {
-    console.log("MySQL Connected");
-  }
-});
+
 
 /* =========================
    TEST ROUTE
@@ -39,34 +23,35 @@ app.get("/", (req, res) => {
 /* =========================
    GET PROJECTS (FROM DB)
 ========================= */
-app.get("/projects", (req, res) => {
-  const sql = "SELECT * FROM projects";
+const projects = [
+  {
+    id: 1,
+    title: "Calculator",
+    description: "Simple JS calculator",
+    link: "https://github.com/VK-0-6/calculator-project"
+  },
+  {
+    id: 2,
+    title: "Student Record System",
+    description: "CRUD app using localStorage",
+    link: "https://github.com/VK-0-6/student-record-system"
+  },
+  {
+    id: 3,
+    title: "Portfolio Website",
+    description: "Full-stack personal portfolio",
+    link: "#"
+  }
+];
 
-  db.query(sql, (err, results) => {
-    if (err) {
-      console.log(err);
-      return res.json({ error: "Failed to fetch projects" });
-    }
-    res.json(results);
-  });
+app.get("/projects", (req, res) => {
+  res.json(projects);
 });
 
 /* =========================
-   ADD PROJECT (OPTIONAL BUT IMPORTANT)
+   ADD PROJECT 
 ========================= */
-app.post("/projects", (req, res) => {
-  const { title, description, link } = req.body;
 
-  const sql = "INSERT INTO projects (title, description, link) VALUES (?, ?, ?)";
-
-  db.query(sql, [title, description, link], (err, result) => {
-    if (err) {
-      console.log(err);
-      return res.json({ error: "Failed to add project" });
-    }
-    res.json({ message: "Project added successfully" });
-  });
-});
 
 /* =========================
    START SERVER
