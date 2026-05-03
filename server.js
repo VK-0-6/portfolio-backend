@@ -40,7 +40,7 @@ const projects = [
     id: 3,
     title: "Portfolio Website",
     description: "Full-stack personal portfolio",
-    link: "#"
+    link: "https://github.com/VK-0-6/My_Personal_Portfolio-"
   }
 ];
 
